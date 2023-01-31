@@ -1,0 +1,440 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage BackgroundColor="#FAFAFA" xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:sk="clr-namespace:Xamarin.Forms.Skeleton;assembly=Xamarin.Forms.Skeleton"
+            xmlns:pk="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" xmlns:Controls="clr-namespace:Suplemento.Controls"
+            x:Class="Suplemento.Views.Home"
+             
+            NavigationPage.HasNavigationBar="False"
+            
+          
+    >
+
+    <ContentPage.Resources>
+        <ControlTemplate x:Key="ItemTabViewControl">
+            <Grid>
+                <pk:PancakeView BackgroundColor="#0400AF" CornerRadius="30,0,0,0">
+                    
+                </pk:PancakeView>
+                <StackLayout Margin="0,5,0,0" WidthRequest="55"  HorizontalOptions="Center" VerticalOptions="Center" >
+                <Image Source="Menudocs" Aspect="AspectFit" WidthRequest="30" ></Image>
+                <Label Text="Cantos" HorizontalOptions="Center" TextColor="WHITE" FontAttributes="Bold"></Label>
+                </StackLayout>
+            </Grid>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="ItemTabViewControl2">
+
+
+            <StackLayout Margin="0,5,0,0" WidthRequest="55"  HorizontalOptions="Center" VerticalOptions="Center" >
+                <Image Source="Menufavorite" Aspect="AspectFit"  WidthRequest="30"></Image>
+                <Label Text="Likes" TextColor="WHITE" HorizontalOptions="Center"  FontAttributes="Bold"></Label>
+            </StackLayout>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="ItemTabViewControl3">
+
+
+            <Grid>
+
+                <pk:PancakeView BackgroundColor="#0400AF" CornerRadius="0,30,0,0"></pk:PancakeView>
+
+                    <StackLayout Margin="0,5,0,0" WidthRequest="60"  HorizontalOptions="Center" VerticalOptions="Center" >
+                <Image Source="Menusettings" Aspect="AspectFit" WidthRequest="30" ></Image>
+                <Label Text="Ajustes" TextColor="WHITE" HorizontalOptions="Center"  FontAttributes="Bold"></Label>
+            </StackLayout>
+            </Grid>
+
+        </ControlTemplate>
+    </ContentPage.Resources>
+
+    
+
+        <Grid>
+
+          
+        <xct:TabView
+                TabStripPlacement="Bottom"
+                TabStripBackgroundColor="Transparent"
+                TabStripHeight="90"
+                TabIndicatorColor="Transparent"
+                TabContentBackgroundColor="Transparent" IsTabTransitionEnabled="True" IsSwipeEnabled="False">
+            
+            
+            <!-- Vista de  contenido principoal-->
+            <xct:TabViewItem
+                 
+              
+                 ControlTemplate="{StaticResource ItemTabViewControl}">
+
+                <Grid>
+
+                    <StackLayout >
+                       
+                        <Grid Padding="20" >
+                            <ImageButton Command="{Binding ShowMenuCommand}" BackgroundColor="Transparent" Source="Menurounded" HeightRequest="30" WidthRequest="30" HorizontalOptions="Start"></ImageButton>
+
+                            <Controls:StandardEntry x:Name="TextSearch" PlaceholderColor="#C7C7C7" TextColor="Black" HorizontalTextAlignment="Center" BackgroundColor="WhiteSmoke" HeightRequest="80" HorizontalOptions="CenterAndExpand" Placeholder="Ingresa el numero" WidthRequest="250" CornerRadius="5" >
+
+                                <Controls:StandardEntry.Behaviors>
+                                    <xct:EventToCommandBehavior
+                                        EventName="TextChanged"
+                                        Command="{Binding SearchCommand}"
+                                        CommandParameter="{Binding Path=Text, Source={x:Reference TextSearch}}"
+                                        >
+                                        
+                                    </xct:EventToCommandBehavior>
+                                </Controls:StandardEntry.Behaviors>
+                            </Controls:StandardEntry>
+
+                            <ImageButton Command="{Binding NotificationCommand}"  Source="notification" WidthRequest="30" BackgroundColor="Transparent" HeightRequest="30" HorizontalOptions="End">
+                                
+                            </ImageButton>
+                           
+                        </Grid>
+                   
+                   
+                            
+                            <StackLayout  Margin="0,0,0,0"  VerticalOptions="CenterAndExpand" >
+                            <RefreshView RefreshColor="#0400AF" Command="{Binding LoadData}" IsRefreshing="{Binding IsRefreshing}">
+                                <CollectionView IsVisible="{Binding IsVisibility}"  x:Name="CollectionHymns" Margin="20,0,20,50" ItemsSource="{Binding ListHymns}"  HorizontalOptions="Center" 
+                                
+                                          >
+
+                                <CollectionView.ItemsLayout>
+                                    <GridItemsLayout Orientation="Vertical" Span="1" VerticalItemSpacing="20"></GridItemsLayout>
+                                </CollectionView.ItemsLayout>
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Frame Margin="0" 
+                                               CornerRadius="5"
+                                               HasShadow="False"
+                                                    sk:Skeleton.BackgroundColor="#FAFAFA" sk:Skeleton.IsParent="True" sk:Skeleton.Animation="{sk:DefaultAnimation Fade}" sk:Skeleton.IsBusy="{Binding IsLoadBusy}"
+                                              >
+                                            <Frame.GestureRecognizers>
+                                                <TapGestureRecognizer NumberOfTapsRequired="1"
+                                                                      Command="{Binding Path=BindingContext.ShowAthemCommand, Source={x:Reference CollectionHymns}}" CommandParameter="{Binding .}"></TapGestureRecognizer>
+                                            </Frame.GestureRecognizers>
+                                                <StackLayout  >
+
+                                                <Grid IsVisible="{Binding IsVisibility}">
+
+                                                    <Frame sk:Skeleton.IsBusy="{Binding IsLoadBusy}"
+                                                            sk:Skeleton.BackgroundColor="#c6c6c5" sk:Skeleton.IsParent="True" sk:Skeleton.Animation="{sk:DefaultAnimation Fade}" 
+                                                          
+                                                           CornerRadius="5" TranslationX="-10" TranslationY="0" HorizontalOptions="Start" BackgroundColor="#FEBE50">
+                                                        <Label  sk:Skeleton.IsBusy="{Binding IsLoadBusy}" sk:Skeleton.Hide="True"   sk:Skeleton.BackgroundColor="#c6c6c5"  TextColor="White" FontSize="Subtitle" FontAttributes="Bold" >
+                                                            <Label.FormattedText>
+                                                                <FormattedString>
+                                                                    <Span Text="#"></Span>
+                                                                    <Span Text="{Binding Number}"></Span>
+                                                                </FormattedString>
+                                                            </Label.FormattedText>
+                                                            </Label>
+                                                        </Frame>
+
+                                                    <StackLayout HorizontalOptions="Center" Margin="30,0,10,0" >
+                                                        <Label sk:Skeleton.Animation="{sk:DefaultAnimation Fade}" sk:Skeleton.IsParent="False" sk:Skeleton.IsBusy="{Binding IsLoadBusy}" sk:Skeleton.BackgroundColor="#c6c6c5" FontSize="Subtitle" TextColor="#6A7386" Text="{Binding Title}" HorizontalOptions="Center" MaxLines="1" HorizontalTextAlignment="Center"  WidthRequest="195"></Label>
+                                                        <Label sk:Skeleton.Animation="{sk:DefaultAnimation Fade}"  sk:Skeleton.IsParent="False" sk:Skeleton.IsBusy="{Binding IsLoadBusy}" sk:Skeleton.BackgroundColor="#c6c6c5" FontAttributes="Bold" TextColor="#0400AF" HorizontalOptions="Center" Text="Oh señor jesus !!"></Label>
+                                                </StackLayout>
+
+
+                                                    <Image sk:Skeleton.Hide="True" sk:Skeleton.IsBusy="{Binding IsLoadBusy}" HorizontalOptions="End"   Source="{Binding ImagePath}"></Image>
+                                                </Grid>
+                                            </StackLayout>
+                                        </Frame>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                            </RefreshView>
+                        </StackLayout>
+
+                          
+
+                   
+
+                    </StackLayout>
+
+                    <!-- Vista de menu despegable-->
+                    
+                    <Grid IsVisible="{Binding IsMenu}">
+                      
+
+                        <Grid BackgroundColor="Black" Opacity="0.5" IsVisible="{Binding IsMenu}">
+                            <Frame HeightRequest="40" BackgroundColor="Black" IsVisible="{Binding IsMenu}">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ShowMenuCommand}"></TapGestureRecognizer>
+                                </Frame.GestureRecognizers>
+                            </Frame>
+                        </Grid>
+                        
+                        <Grid BackgroundColor="#FAFAFA" Margin="0,0,120,0" Padding="15" TranslationX="-300" x:Name="MenuControl">
+                            
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <StackLayout>
+                                
+                                <Label Text="SUPLEMENTO" FontSize="Large" FontAttributes="Bold" TextColor="#0400AF" HorizontalOptions="Center" Margin="0,20,0,0"></Label>
+                            </StackLayout>
+
+                            <StackLayout Grid.Row="1" Margin="0,20,0,0" >
+                                <Frame BackgroundColor="#f1f5f9" HasShadow="False">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Image xct:IconTintColorEffect.TintColor="#0400AF" WidthRequest="30" Source="Menudocs"></Image>
+                                        <Label Margin="10,0,0,0" TextColor="#0400AF" VerticalOptions="Center" Text="Terminos de uso" FontSize="18"></Label>
+                                      
+                                    </StackLayout>
+                                </Frame>
+
+                                <Frame BackgroundColor="Transparent" HasShadow="False">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Image xct:IconTintColorEffect.TintColor="Silver" WidthRequest="30" Source="Menufavorite"></Image>
+                                        <Label  Margin="10,0,0,0" TextColor="Silver" VerticalOptions="Center" Text="Soporte de la app" FontSize="18"></Label>
+
+                                    </StackLayout>
+                                </Frame>
+
+                                <Frame BackgroundColor="Transparent" HasShadow="False">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Image xct:IconTintColorEffect.TintColor="Silver" WidthRequest="30" Source="Menusettings"></Image>
+                                        <Label  Margin="10,0,0,0" TextColor="Silver" VerticalOptions="Center" Text="Creador de la app" FontSize="18"></Label>
+
+                                    </StackLayout>
+                                </Frame>
+
+                           
+                            </StackLayout>
+
+
+
+                            <Path  Margin="-15" Grid.Row="1" Rotation="180" VerticalOptions="End" HorizontalOptions="Start"  WidthRequest="300" HeightRequest="200" Opacity="0.08" Aspect="Fill" Fill="Silver" Data="M0,0V6c0,21.6,291,111.46,741,110.26,445.39,3.6,459-88.3,459-110.26V0Z"></Path>
+
+
+
+
+                        </Grid>
+
+                       
+                    </Grid>
+
+                   
+                </Grid>
+            </xct:TabViewItem>
+
+
+               <!-- Vista de  contenido de favoritos-->
+            
+            <xct:TabViewItem
+         
+                
+                BackgroundColor="#0400AF"
+                 ControlTemplate="{StaticResource ItemTabViewControl2}">
+
+                <Grid BackgroundColor="White">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackLayout>
+                        <Label Text="Favoritos" TextColor="#111827" Margin="20,20,20,0" FontSize="40" FontAttributes="Bold"></Label>
+                        <Label TextColor="DimGray" Text="Se muestran tus cantos favoritos"  Margin="20,0,0,20" FontSize="Medium"  ></Label>
+                    </StackLayout>
+
+
+                    <Grid Grid.Row="1">
+                    
+                        <pk:PancakeView BackgroundColor="#f1f5f9"  CornerRadius="45,45,0,0">
+                        <StackLayout>
+                                <RefreshView RefreshColor="#FEBE50" Command="{Binding LoadDataLikes}" IsRefreshing="{Binding IsRefreshing}">
+
+                                    <CollectionView IsVisible="{Binding IsVisibility}"  x:Name="CollectionHymnsFavorites" Margin="25,40,25,50" ItemsSource="{Binding ListHymnsLikes}"  HorizontalOptions="Center" 
+                                       >
+
+                                    <CollectionView.ItemsLayout>
+                                        <GridItemsLayout Orientation="Vertical" Span="1" VerticalItemSpacing="20"></GridItemsLayout>
+                                    </CollectionView.ItemsLayout>
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Frame Margin="0" 
+                                                 CornerRadius="5"
+                                                   HasShadow="False"
+                                                    sk:Skeleton.BackgroundColor="#FAFAFA" sk:Skeleton.IsParent="True" sk:Skeleton.Animation="{sk:DefaultAnimation Fade}" sk:Skeleton.IsBusy="{Binding IsLoadBusy}"
+                                              >
+                                                <Frame.GestureRecognizers>
+                                                    <TapGestureRecognizer NumberOfTapsRequired="1"
+                                                                      Command="{Binding Path=BindingContext.ShowAthemCommand, Source={x:Reference CollectionHymnsFavorites}}" CommandParameter="{Binding .}"></TapGestureRecognizer>
+                                                </Frame.GestureRecognizers>
+                                                <StackLayout  >
+
+                                                    <Grid IsVisible="{Binding IsVisibility}">
+
+                                                        <Frame sk:Skeleton.IsBusy="{Binding IsLoadBusy}"
+                                                            sk:Skeleton.BackgroundColor="#c6c6c5" sk:Skeleton.IsParent="True" sk:Skeleton.Animation="{sk:DefaultAnimation Fade}"
+                                                          
+                                                           CornerRadius="5" TranslationX="-10" TranslationY="0" HorizontalOptions="Start" BackgroundColor="#FEBE50">
+                                                            <Label  sk:Skeleton.IsBusy="{Binding IsLoadBusy}" sk:Skeleton.Hide="True"   sk:Skeleton.BackgroundColor="#c6c6c5"  TextColor="White" FontSize="Subtitle" FontAttributes="Bold" >
+                                                                <Label.FormattedText>
+                                                                    <FormattedString>
+                                                                        <Span Text="#"></Span>
+                                                                        <Span Text="{Binding Number}"></Span>
+                                                                    </FormattedString>
+                                                                </Label.FormattedText>
+                                                            </Label>
+                                                        </Frame>
+
+                                                            <StackLayout HorizontalOptions="Center" Padding="30,0,0,0">
+                                                            <Label sk:Skeleton.Animation="{sk:DefaultAnimation Fade}" sk:Skeleton.IsParent="False" sk:Skeleton.IsBusy="{Binding IsLoadBusy}" sk:Skeleton.BackgroundColor="#c6c6c5" FontSize="Subtitle" TextColor="#6A7386" Text="{Binding Title}" HorizontalOptions="Center" MaxLines="1" HorizontalTextAlignment="Center"  WidthRequest="195"></Label>
+                                                            <Label sk:Skeleton.Animation="{sk:DefaultAnimation Fade}"  sk:Skeleton.IsParent="False" sk:Skeleton.IsBusy="{Binding IsLoadBusy}" sk:Skeleton.BackgroundColor="#c6c6c5" FontAttributes="Bold" TextColor="#0400AF" HorizontalOptions="Center" Text="Oh señor jesus !!"></Label>
+                                                        </StackLayout>
+
+
+                                                        <Image sk:Skeleton.Hide="True" sk:Skeleton.IsBusy="{Binding IsLoadBusy}" HorizontalOptions="End" WidthRequest="45"   Source="favorite"></Image>
+                                                    </Grid>
+                                                </StackLayout>
+                                            </Frame>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+
+
+
+                                </RefreshView>
+                            </StackLayout>
+                    </pk:PancakeView>
+                     
+                    </Grid>
+                </Grid>
+            </xct:TabViewItem>
+
+
+
+
+            <xct:TabViewItem
+                 
+               
+             
+                 ControlTemplate="{StaticResource ItemTabViewControl3}">
+
+                <!-- Vista de ajustes-->
+                <Grid BackgroundColor="#f1f5f9">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+
+                    <StackLayout>
+                        <Label Text="Ajustes" TextColor="#111827" Margin="20,20,20,0" FontSize="40" FontAttributes="Bold"></Label>
+                        <Label TextColor="DimGray" Text="Configuracion del la aplicacion"  Margin="20,0,0,20" FontSize="Medium"  ></Label>
+                    </StackLayout>
+
+
+                    <Grid Grid.Row="1">
+
+                        <ScrollView>
+                            <pk:PancakeView BackgroundColor="white" Margin="20,20,20,50" VerticalOptions="StartAndExpand" CornerRadius="20" >
+
+                                <StackLayout>
+
+                                <StackLayout Orientation="Horizontal" Padding="15" Margin="0,20,0,0">
+                                    <Frame  HasShadow="False" WidthRequest="30" BackgroundColor="#0400AF" CornerRadius="50">
+                                        <Image xct:IconTintColorEffect.TintColor="White" Source="Choosefont"></Image>
+                                    </Frame>
+                                  
+                                    <Label Margin="10,0,0,0" HorizontalOptions="Center" VerticalOptions="Center" TextColor="Gray" >
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Activar tipo de letra : " FontSize="17"></Span>
+                                                <Span  Text="Gandhi Sans" FontSize="20" TextColor="#111827" FontFamily="GandhiR"></Span>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                        
+                                    </Label>
+                                        <Switch x:Name="Switch1" OnColor="#93c5fd" ThumbColor="#0400AF"  IsToggled="{Binding IsFontGandhi}"  >
+                                        
+                                            <Switch.Behaviors>
+                                                <xct:EventToCommandBehavior EventName="Toggled" Command="{Binding SelectedFontGandhiCommand}" CommandParameter="{Binding Path=IsToggled, Source={x:Reference Switch1}}"></xct:EventToCommandBehavior>
+                                            </Switch.Behaviors>
+                                    </Switch>
+                                </StackLayout>
+
+
+                                    <StackLayout Orientation="Horizontal" Padding="15"  Margin="0,20,0,0" >
+                                    <Frame HasShadow="False" WidthRequest="30" BackgroundColor="#0400AF" CornerRadius="50">
+                                        <Image xct:IconTintColorEffect.TintColor="White" Source="Choosefont"></Image>
+                                    </Frame>
+
+                                    <Label Margin="10,0,0,0" HorizontalOptions="Center" VerticalOptions="Center" TextColor="Gray" >
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Activar tipo de letra : " FontSize="17"></Span>
+                                                <Span Text="Courier New" FontSize="20" TextColor="#111827" FontFamily="Courier"></Span>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+
+                                    </Label>
+                                        <Switch x:Name="Switch2" OnColor="#93c5fd" ThumbColor="#0400AF" IsToggled="{Binding IsFontCourier}" >
+                                            <Switch.Behaviors>
+                                                <xct:EventToCommandBehavior EventName="Toggled" Command="{Binding SelectedFontCourierCommand}" CommandParameter="{Binding Path=IsToggled, Source={x:Reference Switch2}}"></xct:EventToCommandBehavior>
+                                            </Switch.Behaviors>
+                                    </Switch>
+                                </StackLayout>
+
+
+
+                                 <StackLayout  Margin="0,20,0,0">
+                                <StackLayout Orientation="Horizontal" Padding="15">
+                                    <Frame  HasShadow="False" WidthRequest="30" BackgroundColor="#0400AF" CornerRadius="50">
+                                        <Image xct:IconTintColorEffect.TintColor="White" Source="Fontsize"></Image>
+                                    </Frame>
+
+                                    <Label Margin="10,0,0,0" TextColor="Gray" HorizontalOptions="Center" VerticalOptions="Center" Text="Tamaño de la letra" FontSize="18"></Label>
+
+                                </StackLayout>
+
+                                        <Slider Margin="10" MinimumTrackColor="#93c5fd" ThumbColor="#0400AF" MaximumTrackColor="silver"  Value="{Binding FontSize}" Maximum="50" Minimum="20"></Slider>
+                                        <Label  TextColor="Gray" Text="{Binding FontSize}" HorizontalOptions="Center" Margin="20,0,0,0" FontSize="30" FontFamily="{Binding FontFamily}"></Label>
+                                    
+                                </StackLayout>
+
+
+
+
+
+                                    <StackLayout Margin="0,20,0,0">
+                                        
+                                    <StackLayout Orientation="Horizontal" Padding="15">
+                                        <Frame  HasShadow="False" WidthRequest="30" BackgroundColor="#0400AF" CornerRadius="50">
+                                            <Image xct:IconTintColorEffect.TintColor="White" Source="Trash"></Image>
+                                        </Frame>
+
+                                        <Label Margin="10,0,0,0" HorizontalOptions="Center" VerticalOptions="Center" Text="Borrar lista de favoritos" FontSize="18" TextColor="Gray"></Label>
+                                    </StackLayout>
+
+                                        <Button Command="{Binding DeleteFileLikesCommand}" CornerRadius="5" Text="Borrar" Margin="10" HorizontalOptions="Center" BackgroundColor="#FEBE50" WidthRequest="200" HeightRequest="60" TextColor="White"></Button>
+                                    </StackLayout>
+                         
+
+                                </StackLayout>
+                      
+                    </pk:PancakeView>
+                        </ScrollView>
+                    </Grid>
+
+
+                </Grid>
+            </xct:TabViewItem>
+        </xct:TabView>
+            
+            
+            
+            
+            
+            
+            
+            
+    </Grid>
+
+</ContentPage>

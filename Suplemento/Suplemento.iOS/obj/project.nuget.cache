@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "dgSpecHash": "etB2321GImi9LCSipzp37A208aSln/sN4siPrYEBfm9Q6Mvc33Eo/vgpEJj6VRZ9vprntPniADgQ7u/RFbggPw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Isaac\\Documents\\Suplemento\\Suplemento\\Suplemento.iOS\\Suplemento.iOS.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Isaac\\.nuget\\packages\\newtonsoft.json\\13.0.2\\newtonsoft.json.13.0.2.nupkg.sha512",
+    "C:\\Users\\Isaac\\.nuget\\packages\\system.componentmodel\\4.3.0\\system.componentmodel.4.3.0.nupkg.sha512",
+    "C:\\Users\\Isaac\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512",
+    "C:\\Users\\Isaac\\.nuget\\packages\\xamarin.communitytoolkit\\2.0.5\\xamarin.communitytoolkit.2.0.5.nupkg.sha512",
+    "C:\\Users\\Isaac\\.nuget\\packages\\xamarin.essentials\\1.7.4\\xamarin.essentials.1.7.4.nupkg.sha512",
+    "C:\\Users\\Isaac\\.nuget\\packages\\xamarin.forms\\5.0.0.2545\\xamarin.forms.5.0.0.2545.nupkg.sha512",
+    "C:\\Users\\Isaac\\.nuget\\packages\\xamarin.forms.pancakeview\\2.3.0.759\\xamarin.forms.pancakeview.2.3.0.759.nupkg.sha512",
+    "C:\\Users\\Isaac\\.nuget\\packages\\xamarin.forms.skeleton\\2.0.0\\xamarin.forms.skeleton.2.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

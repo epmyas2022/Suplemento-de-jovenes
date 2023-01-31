@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage BackgroundColor="#FAFAFA" xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Suplemento.Views.Anthem"
+             NavigationPage.HasNavigationBar="False">
+    <ContentPage.Content>
+
+        <Grid>
+
+         
+          
+            <StackLayout>
+                <Frame BackgroundColor="#0400AF" >
+                    <Grid >
+
+                        <ImageButton BackgroundColor="Transparent" WidthRequest="40" HorizontalOptions="Start" VerticalOptions="Center" Source="ArrowLeft" Command="{Binding toGetBackCommand}"></ImageButton>
+
+                        <Label Text="{Binding AthemNumber}" HorizontalOptions="Center" VerticalOptions="Center" TextColor="White" FontAttributes="Bold" FontSize="20"></Label>
+                        <ImageButton  HorizontalOptions="End"  Aspect="AspectFit" WidthRequest="40" HeightRequest="40" Source="{Binding LikedImagePath}" BackgroundColor="Transparent" Command="{Binding LikedCommand}"></ImageButton>
+                    </Grid>
+                </Frame>
+
+
+              
+                <StackLayout  >
+
+                
+                    <CollectionView x:Name="CollectionView1" ItemsSource="{Binding AthemLetters}" >
+                           
+                   
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+
+
+
+                                <Label  HorizontalOptions="Center" Padding="{Binding Path=BindingContext.PaddingText, Source={x:Reference CollectionView1}}" FontSize="{Binding AthemFontSize}" LineHeight="1.6" LineBreakMode="CharacterWrap" TextColor="Black" HorizontalTextAlignment="Start" TextType="Html" FontFamily="{Binding AthemFontFamily}"
+                                       Text="{Binding Paragraph}">
+
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Path=BindingContext.AddFontSizeCommand, Source={x:Reference CollectionView1} }" ></TapGestureRecognizer>
+                                    </Label.GestureRecognizers>
+
+                                </Label>
+                               
+
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+
+
+
+
+
+
+                </StackLayout>
+            
+            </StackLayout>
+            
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,16 @@
+C:\Users\Isaac\Documents\Suplemento\Suplemento\Suplemento\obj\Debug\netstandard2.0\Suplemento.csproj.AssemblyReference.cache
+C:\Users\Isaac\Documents\Suplemento\Suplemento\Suplemento\obj\Debug\netstandard2.0\Suplemento.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Isaac\Documents\Suplemento\Suplemento\Suplemento\obj\Debug\netstandard2.0\App.xaml.g.cs
+C:\Users\Isaac\Documents\Suplemento\Suplemento\Suplemento\obj\Debug\netstandard2.0\Views\Anthem.xaml.g.cs
+C:\Users\Isaac\Documents\Suplemento\Suplemento\Suplemento\obj\Debug\netstandard2.0\Views\Home.xaml.g.cs
+C:\Users\Isaac\Documents\Suplemento\Suplemento\Suplemento\obj\Debug\netstandard2.0\Suplemento.AssemblyInfoInputs.cache
+C:\Users\Isaac\Documents\Suplemento\Suplemento\Suplemento\obj\Debug\netstandard2.0\Suplemento.AssemblyInfo.cs
+C:\Users\Isaac\Documents\Suplemento\Suplemento\Suplemento\obj\Debug\netstandard2.0\Suplemento.csproj.CoreCompileInputs.cache
+C:\Users\Isaac\Documents\Suplemento\Suplemento\Suplemento\bin\Debug\netstandard2.0\Suplemento.deps.json
+C:\Users\Isaac\Documents\Suplemento\Suplemento\Suplemento\bin\Debug\netstandard2.0\Suplemento.dll
+C:\Users\Isaac\Documents\Suplemento\Suplemento\Suplemento\bin\Debug\netstandard2.0\Suplemento.pdb
+C:\Users\Isaac\Documents\Suplemento\Suplemento\Suplemento\obj\Debug\netstandard2.0\XamlC.stamp
+C:\Users\Isaac\Documents\Suplemento\Suplemento\Suplemento\obj\Debug\netstandard2.0\Suplemento.dll
+C:\Users\Isaac\Documents\Suplemento\Suplemento\Suplemento\obj\Debug\netstandard2.0\refint\Suplemento.dll
+C:\Users\Isaac\Documents\Suplemento\Suplemento\Suplemento\obj\Debug\netstandard2.0\Suplemento.pdb
+C:\Users\Isaac\Documents\Suplemento\Suplemento\Suplemento\obj\Debug\netstandard2.0\ref\Suplemento.dll
