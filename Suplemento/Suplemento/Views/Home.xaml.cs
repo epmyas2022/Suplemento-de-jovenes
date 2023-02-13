@@ -20,7 +20,7 @@ namespace Suplemento.Views
          
             this.BindingContext = new Suplemento.ViewModels.VMhome(Navigation) { menuControl = MenuControl};
 
-      
+            
 
         }
 

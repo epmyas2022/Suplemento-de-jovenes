@@ -14,8 +14,10 @@ namespace Suplemento.Models
         public String ImagePath { get; set; }
         public ObservableCollection<Mletter> Letters { get; set; }
 
-       public bool IsLoadBusy { get; set; } 
+        public bool IsLoadBusy { get; set; }
         public bool IsVisibility { get; set; }
-        
+
+        public Thickness PaddingTitle { get; set; }
+
     }
 }

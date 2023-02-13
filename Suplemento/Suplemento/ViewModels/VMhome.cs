@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Essentials;
+using System.Runtime.InteropServices;
 using Xamarin.Forms;
 
 namespace Suplemento.ViewModels
@@ -28,7 +29,7 @@ namespace Suplemento.ViewModels
         bool _isRefreshing;
         bool _isMenu = false;
         int _transitionMenu = -200;
-        bool _isFontGandhi ;
+        bool _isFontGandhi;
         bool _isFontCourier;
 
         int fontSizeValue = Preferences.Get("fontSize", 20);
@@ -43,7 +44,8 @@ namespace Suplemento.ViewModels
 
             this.IsVisibility = false;
 
-            Device.StartTimer(TimeSpan.FromSeconds(2), () => {
+            Device.StartTimer(TimeSpan.FromSeconds(2), () =>
+            {
 
                 Device.BeginInvokeOnMainThread(() =>
                 {
@@ -73,7 +75,8 @@ namespace Suplemento.ViewModels
             }
         }
 
-        public bool IsVisibility {
+        public bool IsVisibility
+        {
 
             get { return _isVisibility; }
             set { SetProperty(ref _isVisibility, value); OnPropertyChanged(); }
@@ -89,9 +92,9 @@ namespace Suplemento.ViewModels
 
         public bool IsFontGandhi { get { return _isFontGandhi; } set { SetValue(ref _isFontGandhi, value); } }
 
-        public bool IsFontCourier { get { return _isFontCourier; } set { SetValue(ref _isFontCourier,value); } }
-        
-        public int FontSize { get { return fontSizeValue; } set { SetValue(ref fontSizeValue,value); Preferences.Set("fontSize", FontSize);  } }
+        public bool IsFontCourier { get { return _isFontCourier; } set { SetValue(ref _isFontCourier, value); } }
+
+        public int FontSize { get { return fontSizeValue; } set { SetValue(ref fontSizeValue, value); Preferences.Set("fontSize", FontSize); } }
 
         public async Task ShowMenu()
         {
@@ -118,100 +121,109 @@ namespace Suplemento.ViewModels
 
             var deserializeDatabase = JsonConvert.DeserializeObject<Mdatabase>(FilesData.ReadFileInPackage("database", "json"));
 
-   
+
             this.IsVisibility = true;
 
 
-            var listComponents = LoadComponents(deserializeDatabase, new Mhymns { IsVisibility = true , IsLoadBusy = true });
+            var listComponents = LoadComponents(deserializeDatabase, new Mhymns { IsVisibility = true, IsLoadBusy = true, PaddingTitle = new Thickness(60, 0, 0, 0) });
 
 
             ListHymns = new ObservableCollection<Mhymns>(listComponents);
 
             this.IsLoadBusy = true;
-            await Task.Delay(11000);
+            await Task.Delay(9000);
             this.IsLoadBusy = false;
 
 
-            listComponents = LoadComponents(deserializeDatabase, new Mhymns { IsVisibility = true,IsLoadBusy = false });
+
+            listComponents = LoadComponents(deserializeDatabase, new Mhymns { IsVisibility = true, IsLoadBusy = false, PaddingTitle = new Thickness(0, 0, 0, 0) });
+
+
+
+
 
             ListHymns = new ObservableCollection<Mhymns>(listComponents);
 
 
 
             this.IsRefreshing = false;
-       
+
 
         }
 
-  
+
 
         public async Task SearchHymns(String Text)
         {
-            
-                var regex = new Regex("\\d+");
 
-                var match = regex.Match(Text);
+            var regex = new Regex("\\d+");
 
-                var deserializeData = JsonConvert.DeserializeObject<Mdatabase>(FilesData.ReadFileInPackage("database", "json"));
+            var match = regex.Match(Text);
 
-       
-                ObservableCollection<Schema> Items = new ObservableCollection<Schema>();
+            var deserializeData = JsonConvert.DeserializeObject<Mdatabase>(FilesData.ReadFileInPackage("database", "json"));
 
-                if (match.Success)
+
+            ObservableCollection<Schema> Items = new ObservableCollection<Schema>();
+
+            if (match.Success)
+            {
+                foreach (var item in deserializeData.schema)
                 {
-                    foreach (var item in deserializeData.schema)
-                    {
-                        if (item.Number == int.Parse(match.Value))
-                        {
-                            Items.Add(item);
-                        }
-                    }
-                }
-                else
-                {
-
-                    Text = Text.ToLower();
-                    foreach(var item in deserializeData.schema)
-                {
-                    if(item.Number.ToString().Contains(Text) || item.Title.Contains(Text))
+                    if (item.Number == int.Parse(match.Value))
                     {
                         Items.Add(item);
                     }
                 }
+            }
+            else
+            {
+
+                Text = Text.ToLower();
+                foreach (var item in deserializeData.schema)
+                {
+                    if (item.Number.ToString().ToLower().Contains(Text) || item.Title.ToLower().Contains(Text))
+                    {
+                        Items.Add(item);
+                    }
                 }
+            }
 
 
 
-                this.IsLoadBusy = true;
+            this.IsLoadBusy = true;
 
-                deserializeData.schema = Items;
+            deserializeData.schema = Items;
 
-                var listComponents = LoadComponents(deserializeData, new Mhymns { IsVisibility = true , IsLoadBusy = true});
+            var listComponents = LoadComponents(deserializeData, new Mhymns { IsVisibility = true, IsLoadBusy = true, PaddingTitle = new Thickness(60, 0, 0, 0) });
 
-                ListHymns = new ObservableCollection<Mhymns>(listComponents);
+            ListHymns = new ObservableCollection<Mhymns>(listComponents);
 
-                await Task.Delay(1200);
+            await Task.Delay(1200);
 
-                this.IsLoadBusy = false;
+            this.IsLoadBusy = false;
 
-                listComponents = LoadComponents(deserializeData, new Mhymns { IsVisibility = true , IsLoadBusy = false});
 
-                ListHymns = new ObservableCollection<Mhymns>(listComponents);
+            listComponents = LoadComponents(deserializeData, new Mhymns { IsVisibility = true, IsLoadBusy = false, PaddingTitle = new Thickness(0, 0, 0, 0) });
 
-             
+
+
+            ListHymns = new ObservableCollection<Mhymns>(listComponents);
+
+
         }
 
 
         public async Task ShowHymnsLikes()
         {
 
+    
             this.IsLoadBusy = true;
 
             var deserializeDatabase = JsonConvert.DeserializeObject<Mdatabase>(FilesData.ReadFileInPackage("database", "json"));
 
-            var listComponents = LoadComponents(deserializeDatabase, new Mhymns { IsVisibility = true , IsLoadBusy = true });
-
             var listComponentsLikes = new List<Mhymns>();
+            var listComponents = LoadComponents(deserializeDatabase, new Mhymns { IsVisibility = true, IsLoadBusy = true, PaddingTitle = new Thickness(60, 0, 0, 0) });
+
 
             if (GetCollectionsLikes().Count > 0)
             {
@@ -229,22 +241,24 @@ namespace Suplemento.ViewModels
                 listComponentsLikes.Clear();
             }
 
-                ListHymnsLikes = new ObservableCollection<Mhymns>(listComponentsLikes);
+            ListHymnsLikes = new ObservableCollection<Mhymns>(listComponentsLikes);
 
-                await Task.Delay(1200);
+            await Task.Delay(1200);
 
-
-                foreach (var component in listComponentsLikes)
-                {
-                    component.IsLoadBusy = false;
-                }
-
-                ListHymnsLikes = new ObservableCollection<Mhymns>(listComponentsLikes);
-            
-         
             this.IsLoadBusy = false;
+
+            foreach (var component in listComponentsLikes)
+            {
+                component.IsLoadBusy = false;
+                component.PaddingTitle = new Thickness(0, 0, 0, 0);
+            }
+
+            ListHymnsLikes = new ObservableCollection<Mhymns>(listComponentsLikes);
+
+       
+
             this.IsRefreshing = false;
-            
+
         }
 
         public void SelectedFontGandhi(bool isToggled)
@@ -252,11 +266,11 @@ namespace Suplemento.ViewModels
 
             IsFontGandhi = isToggled;
 
- 
-        
+
+
             if (!IsFontGandhi)
             {
-         
+
                 IsFontCourier = true;
                 ChangeFont("Courier");
                 ShowHymns();
@@ -272,8 +286,8 @@ namespace Suplemento.ViewModels
             }
 
 
-           
-           
+
+
 
         }
 
@@ -300,7 +314,7 @@ namespace Suplemento.ViewModels
                 ShowHymnsLikes();
             }
 
-            
+
 
 
         }
@@ -312,17 +326,19 @@ namespace Suplemento.ViewModels
 
             FontFamily = _fontFamily;
 
-       
+
         }
 
-        private List<Mhymns> LoadComponents(Mdatabase database,Mhymns item)
+        private List<Mhymns> LoadComponents(Mdatabase database, Mhymns item)
         {
             var collection = new List<Mhymns>();
 
-            foreach(var data in database.schema)
+     
+
+            foreach (var data in database.schema)
             {
 
-                collection.Add(CreateComponent(data, AddParagraph(data), item.IsVisibility ,item.IsLoadBusy));
+                collection.Add(CreateComponent(data, AddParagraph(data), item.PaddingTitle, item.IsVisibility, item.IsLoadBusy));
             }
 
             return collection;
@@ -345,7 +361,7 @@ namespace Suplemento.ViewModels
 
             return collection;
         }
-        private Mhymns CreateComponent(Schema data, ObservableCollection<Mletter> _listParagraph,bool _isVisibility,bool isLoadBusy = true)
+        private Mhymns CreateComponent(Schema data, ObservableCollection<Mletter> _listParagraph, Thickness paddingTitle, bool _isVisibility, bool isLoadBusy = true)
         {
             return new Mhymns
             {
@@ -354,25 +370,27 @@ namespace Suplemento.ViewModels
                 Number = data.Number,
                 Letters = _listParagraph,
                 IsVisibility = _isVisibility,
-               IsLoadBusy = IsLoadBusy 
+                IsLoadBusy = IsLoadBusy,
+                PaddingTitle = paddingTitle
             };
         }
-       
+
 
         private String ParagraphText(String[] lines)
         {
             var result = new StringBuilder();
-            foreach(var line in lines)
+            foreach (var line in lines)
             {
 
-                result.AppendLine(Environment.NewLine + line  + "<br/>");
+
+                result.AppendLine(Environment.NewLine + line + "<br/>");
             }
 
             return result.ToString();
         }
 
 
-   
+
         private bool getLiked(int number)
         {
             var result = false;
@@ -398,7 +416,6 @@ namespace Suplemento.ViewModels
 
             var json = FilesData.ReadFile("", "likes.json");
 
-            Console.WriteLine(json);
 
             if (json != null)
             {
@@ -421,7 +438,7 @@ namespace Suplemento.ViewModels
         public ICommand ShowAthemCommand => new Command<Mhymns>(async (args) => { if (!this.IsLoadBusy) { await ShowPageAnthem(args); } });
         public ICommand LoadData => new Command(async () => await ShowHymns());
 
-        public ICommand SearchCommand => new Command<String>( async(String Text) => { await SearchHymns(Text); });
+        public ICommand SearchCommand => new Command<String>(async (String Text) => { await SearchHymns(Text); });
 
         public ICommand LoadDataLikes => new Command(async () => { await ShowHymnsLikes(); });
 
@@ -432,10 +449,10 @@ namespace Suplemento.ViewModels
         public ICommand SelectedFontCourierCommand => new Command<bool>((toggled) => { SelectedFontCourier(toggled); });
         public ICommand SelectedFontGandhiCommand => new Command<bool>((toggled) => { SelectedFontGandhi(toggled); });
 
-        public ICommand DeleteFileLikesCommand => new Command(async () => { FilesData.DeleteFile("", "likes.json"); await DisplayAlert("Success", "La lista de favoritos se ha eliminado","ok"); });
+        public ICommand DeleteFileLikesCommand => new Command(async () => { FilesData.DeleteFile("", "likes.json"); await DisplayAlert("Success", "La lista de favoritos se ha eliminado", "ok"); });
 
 
     }
 
-    
+
 }

@@ -19,8 +19,9 @@ public class SplashScreen
 	public SplashScreen ()
 	{
 		super ();
-		if (getClass () == SplashScreen.class)
+		if (getClass () == SplashScreen.class) {
 			mono.android.TypeManager.Activate ("Suplemento.Droid.SplashScreen, Suplemento.Android", "", this, new java.lang.Object[] {  });
+		}
 	}
 
 
